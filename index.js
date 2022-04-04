@@ -7,8 +7,8 @@ const resetDB = require('./utils/resetDB');
 const PORT = process.env.PORT || 5000;
 
 var cron = require('node-cron');
-cron.schedule('*/10 * * * *', () => {
-  console.log('running db reset every 10 minutes');
+cron.schedule('55 */9 * * * *', () => {
+  // running db reset every 10 minutes
   resetDB();
 });
 

@@ -12,7 +12,7 @@ export default function ListTodos() {
   async function getTodos() {
     try {
       await fetch('/todos', {
-        method: 'get'
+        method: 'get',
       })
         .then((res) => res.json())
         .then((todoArray) => setTodos(todoArray));
@@ -26,10 +26,9 @@ export default function ListTodos() {
   }, []);
 
   async function deleteTodo(id: number) {
-    console.log('delete ', id);
     try {
       await fetch(`/todos/${id}`, {
-        method: 'delete'
+        method: 'delete',
       }).then((res) => res.json());
       setTodos((todos) => todos.filter((todo: Todo) => todo.todo_id !== id));
     } catch (error) {
