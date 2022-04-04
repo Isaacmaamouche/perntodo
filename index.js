@@ -19,9 +19,14 @@ app.use(express.json()); //req.body
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(PATH.join(__dirname, 'client/build')));
 }
+app.use(express.static(PATH.join(__dirname, 'client/build')));
 
 //routes
 app.use('/', todosRoutes);
+
+app.get('*', (req, res) => {
+  res.sendFile(PATH.join(__dirname, 'client/build/index.html'));
+});
 
 //app listens
 app.listen(PORT, () => {
