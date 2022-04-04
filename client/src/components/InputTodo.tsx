@@ -6,10 +6,10 @@ export default function InputTodo() {
     e.preventDefault();
     try {
       const body = { description };
-      await fetch('http://localhost:5000/todos', {
+      await fetch('/todos', {
         method: 'post',
         headers: { 'Content-Type': 'Application/JSON' },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
       });
       window.location.href = '/';
     } catch (error) {
@@ -19,7 +19,7 @@ export default function InputTodo() {
 
   async function resetDemoData() {
     try {
-      await fetch('http://localhost:5000/todos/reset');
+      await fetch('/todos/reset');
     } catch (error) {
       console.error({ error });
     }
@@ -33,19 +33,17 @@ export default function InputTodo() {
   const CalcTimeRemaining = () => {
     const countdown = new Date().getTime();
     let until10 = 10 - (new Date().getMinutes() % 10) + new Date().getMinutes();
-    if (until10 === 60) until10 = 0;
+    if (until10 >= 60) until10 = 0;
     const target = new Date(`Jan 1, 2135 00:${until10}:00`).getTime();
     const timeUntil = target - countdown;
     const minutesRemaining = new Date(timeUntil).getMinutes();
     const secondsRemaining = String(new Date(timeUntil).getSeconds());
     const s =
-      secondsRemaining.length == 1 ? '0' + secondsRemaining : secondsRemaining;
+      secondsRemaining.length === 1 ? '0' + secondsRemaining : secondsRemaining;
     return minutesRemaining + ':' + s;
   };
 
   const [timeRemaining, setTimeRemaining] = useState(CalcTimeRemaining());
-  console.log(timeRemaining);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       setTimeRemaining(CalcTimeRemaining());

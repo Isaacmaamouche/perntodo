@@ -27,7 +27,7 @@ export default function EditTodo({ todo }: EditProps) {
   async function updateTodo() {
     try {
       const body: updatedDescription = { description: newDescription };
-      await fetch(`http://localhost:5000/todos/${todo_id}`, {
+      await fetch(`/todos/${todo_id}`, {
         method: 'put',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body)

@@ -11,7 +11,7 @@ export default function ListTodos() {
 
   async function getTodos() {
     try {
-      await fetch('http://localhost:5000/todos', {
+      await fetch('/todos', {
         method: 'get'
       })
         .then((res) => res.json())
@@ -28,7 +28,7 @@ export default function ListTodos() {
   async function deleteTodo(id: number) {
     console.log('delete ', id);
     try {
-      await fetch(`http://localhost:5000/todos/${id}`, {
+      await fetch(`/todos/${id}`, {
         method: 'delete'
       }).then((res) => res.json());
       setTodos((todos) => todos.filter((todo: Todo) => todo.todo_id !== id));

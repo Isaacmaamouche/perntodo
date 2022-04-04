@@ -1,10 +1,10 @@
 const express = require('express');
 const app = express();
+const PATH = require('path');
 const cors = require('cors');
 const todosRoutes = require('./routes/todos');
 const resetDB = require('./utils/resetDB');
 const PORT = process.env.PORT || 5000;
-// require('dotenv').config();
 
 var cron = require('node-cron');
 cron.schedule('*/10 * * * *', () => {
@@ -17,6 +17,7 @@ app.use(cors());
 app.use(express.json()); //req.body
 
 if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(PATH.join(__dirname, 'client/build')));
 }
 
 //routes
