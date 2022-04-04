@@ -14,10 +14,10 @@ const devConfig = `postgresql://${process.env.POSTGRES_USER}:${process.env.POSTG
 
 const prodConfig = process.env.DATABASE_URL; //provided by heroku addon
 
-console.log(devConfig);
 const pool = new Pool({
   connectionString:
     process.env.NODE_ENV === 'production' ? prodConfig : devConfig,
+  ssl: true,
 });
 
 module.exports = pool;
