@@ -1,15 +1,16 @@
 import './App.css';
 
-import InputTodo from './components/InputTodo';
-import ListTodos from './components/ListTodos';
-
+import HeaderContainer from './components/Header/HeaderContainer';
+import InputTodoContainer from './components/InputTodo/InputTodoContainer';
+import ListTodosContainer from './components/ListTodo/ListTodosContainer';
 function App() {
   return (
     <div className="App">
       <>
         <div className="container">
-          <InputTodo />
-          <ListTodos />
+          <HeaderContainer />
+          <ListTodosContainer />
+          <InputTodoContainer />
         </div>
       </>
     </div>

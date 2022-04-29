@@ -18,7 +18,9 @@ app.use(express.json()); //req.body
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(PATH.join(__dirname, 'client/build')));
+  console.log('server running in production');
 }
+// to use static serving in dev mode as well
 // app.use(express.static(PATH.join(__dirname, 'client/build')));
 
 //routes
