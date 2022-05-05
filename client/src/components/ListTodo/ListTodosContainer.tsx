@@ -1,13 +1,22 @@
 import { useEffect, useState } from 'react';
+import { useRenderContext } from '../../context/renderContext';
 import { ListTodosView } from './ListTodosView';
 
 export type Todo = {
   description: string;
   todo_id: number;
+  emoji: string;
+  date: string;
+  completed: boolean;
+  tag: string[];
+  title: string;
 };
+
+export type completedTodoPayload = { completed: boolean };
 
 export const ListTodosContainer = () => {
   const [todos, setTodos] = useState([]);
+  const { render, triggerRender } = useRenderContext();
 
   async function getTodos() {
     try {
@@ -23,7 +32,7 @@ export const ListTodosContainer = () => {
 
   useEffect(() => {
     getTodos();
-  }, []);
+  }, [render]);
 
   async function deleteTodo(id: number) {
     try {
@@ -36,5 +45,26 @@ export const ListTodosContainer = () => {
     }
   }
 
-  return <ListTodosView todos={todos} deleteTodo={deleteTodo} />;
+  async function completedTodo(id: number, completed: boolean) {
+    try {
+      const body: completedTodoPayload = {
+        completed,
+      };
+      await fetch(`/todos/${id}`, {
+        method: 'put',
+        headers: { 'Content-Type': 'Application/JSON' },
+        body: JSON.stringify(body),
+      }).then(() => triggerRender(render + 1));
+    } catch (error) {
+      console.error({ error });
+    }
+  }
+
+  return (
+    <ListTodosView
+      todos={todos}
+      deleteTodo={deleteTodo}
+      completedTodo={completedTodo}
+    />
+  );
 };

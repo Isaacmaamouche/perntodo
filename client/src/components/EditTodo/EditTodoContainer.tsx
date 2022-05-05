@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { EditTodoView } from './EditTodoView';
+import { useRenderContext } from '../../context/renderContext';
 
 interface EditProps {
   todo: TodoProps;
@@ -15,6 +16,8 @@ interface updatedDescription {
 }
 
 export const EditTodoContainer = ({ todo }: EditProps) => {
+  const { render, triggerRender } = useRenderContext();
+
   const [showCreateTodoDialog, setShowCreateTodoDialog] = useState(false);
 
   function ToggleCreateTodoModal() {
@@ -42,7 +45,9 @@ export const EditTodoContainer = ({ todo }: EditProps) => {
         method: 'put',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body),
-      }).then(() => (window.location.href = '/'));
+      })
+        .then(() => triggerRender(render + 1))
+        .then(() => ToggleCreateTodoModal());
     } catch (error) {
       console.error({ error });
     }
