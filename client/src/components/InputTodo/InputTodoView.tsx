@@ -5,14 +5,14 @@ import { Flex } from '@welcome-ui/flex';
 import { AddTodoContainer } from '../AddTodo/AddTodoContainer';
 
 export type InputTodoProps = {
-  loadDemoData: () => void;
+  resetDemoData: () => void;
 };
 
-export const InputTodoView: React.FC<InputTodoProps> = ({ loadDemoData }) => {
+export const InputTodoView: React.FC<InputTodoProps> = ({ resetDemoData }) => {
   return (
     <Flex direction="row" align="right" justify="end" gap="1rem" mt="md">
       <AddTodoContainer />
-      <Button onClick={loadDemoData}>
+      <Button onClick={resetDemoData}>
         <Text variant="body2" as="span">
           Reset data
         </Text>

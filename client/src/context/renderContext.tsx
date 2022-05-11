@@ -1,10 +1,10 @@
 import { createContext, useContext } from 'react';
 export type RenderContext = {
-  render: number;
-  triggerRender: (n: number) => void;
+  renderCount: number;
+  Rerender: () => void;
 };
 export const MyRenderContext = createContext<RenderContext>({
-  render: 0,
-  triggerRender: () => {},
+  renderCount: 0,
+  Rerender: () => {},
 });
 export const useRenderContext = () => useContext(MyRenderContext);

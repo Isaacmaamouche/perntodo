@@ -6,14 +6,20 @@ import { HeaderContainer } from './components/Header/HeaderContainer';
 import { InputTodoContainer } from './components/InputTodo/InputTodoContainer';
 import { ListTodosContainer } from './components/ListTodo/ListTodosContainer';
 import { useState } from 'react';
+import { AddTodoForm } from './components/Form/TodoForm';
 function App() {
-  const [render, triggerRender] = useState(0);
+  const [renderCount, setRenderCount] = useState<number>(0);
+  const Rerender = () => {
+    console.log('Rerender');
+
+    setRenderCount(renderCount + 1);
+  };
   return (
     <MyRenderContext.Provider
-      value={{ render: render, triggerRender: triggerRender }}
+      value={{ renderCount: renderCount, Rerender: Rerender }}
     >
       <div className="App">
-        <Box mx="md">
+        <Box className="main" mx="md">
           <HeaderContainer />
           <ListTodosContainer />
           <InputTodoContainer />

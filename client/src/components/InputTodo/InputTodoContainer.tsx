@@ -1,18 +1,18 @@
+import { resolveTypeReferenceDirective } from 'typescript';
+import { useRenderContext } from '../../context/renderContext';
 import { AddTodoContainer } from '../AddTodo/AddTodoContainer';
 import { InputTodoView } from './InputTodoView';
 
 export const InputTodoContainer = () => {
+  const { Rerender } = useRenderContext();
+
   async function resetDemoData() {
     try {
-      await fetch('/todos/reset');
+      await fetch('/todos/reset').then(() => Rerender());
     } catch (error) {
       console.error({ error });
     }
   }
 
-  function loadDemoData() {
-    resetDemoData();
-    window.location.href = '/';
-  }
-  return <InputTodoView loadDemoData={loadDemoData} />;
+  return <InputTodoView resetDemoData={resetDemoData} />;
 };

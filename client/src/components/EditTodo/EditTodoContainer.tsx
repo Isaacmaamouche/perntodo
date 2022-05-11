@@ -1,52 +1,36 @@
 import { useEffect, useState } from 'react';
 import { EditTodoView } from './EditTodoView';
 import { useRenderContext } from '../../context/renderContext';
+import { Todo } from '../ListTodo/ListTodosContainer';
+import { FormDataType } from '../Form/TodoForm';
 
 interface EditProps {
-  todo: TodoProps;
+  todo: Todo;
 }
 
-interface TodoProps {
-  description: string;
-  todo_id: number;
-}
-
-interface updatedDescription {
-  description: string;
-}
-
-export const EditTodoContainer = ({ todo }: EditProps) => {
-  const { render, triggerRender } = useRenderContext();
+export const EditTodoContainer: React.FC<EditProps> = ({ todo }: EditProps) => {
+  const { Rerender } = useRenderContext();
 
   const [showCreateTodoDialog, setShowCreateTodoDialog] = useState(false);
 
   function ToggleCreateTodoModal() {
     setShowCreateTodoDialog(!showCreateTodoDialog);
   }
-  const { description, todo_id } = todo;
-  const [newDescription, setNewDescription] = useState('');
+  const { todo_id } = todo;
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setNewDescription(e.target.value);
+  function handleFormSubmit(formData: FormDataType) {
+    updateTodo(formData);
   }
 
-  function resetDescription() {
-    setNewDescription(description);
-  }
-
-  useEffect(() => {
-    resetDescription();
-  }, []);
-
-  async function updateTodo() {
+  async function updateTodo(formData: FormDataType) {
     try {
-      const body: updatedDescription = { description: newDescription };
+      const body = { formData };
       await fetch(`/todos/${todo_id}`, {
         method: 'put',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body),
       })
-        .then(() => triggerRender(render + 1))
+        .then(() => Rerender())
         .then(() => ToggleCreateTodoModal());
     } catch (error) {
       console.error({ error });
@@ -57,10 +41,8 @@ export const EditTodoContainer = ({ todo }: EditProps) => {
     <EditTodoView
       ToggleCreateTodoModal={ToggleCreateTodoModal}
       showCreateTodoDialog={showCreateTodoDialog}
-      description={description}
-      newDescription={newDescription}
-      handleChange={handleChange}
-      updateTodo={updateTodo}
+      handleFormSubmit={handleFormSubmit}
+      todo={todo}
     />
   );
 };

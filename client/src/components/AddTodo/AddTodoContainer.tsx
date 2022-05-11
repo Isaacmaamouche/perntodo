@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { useRenderContext } from '../../context/renderContext';
+import { FormDataType } from '../Form/TodoForm';
 import { AddTodoView } from './AddTodoView';
 
 export const AddTodoContainer = () => {
+  const { Rerender } = useRenderContext();
+
   const [showCreateTodoDialog, setShowCreateTodoDialog] = useState(false);
 
   function ToggleCreateTodoModal() {
@@ -9,15 +13,20 @@ export const AddTodoContainer = () => {
   }
   const [description, setDescription] = useState('');
 
-  async function CreateTodo(): Promise<void> {
+  function handleFormSubmit(formData: FormDataType) {
+    CreateTodo(formData);
+  }
+
+  async function CreateTodo(formData: FormDataType) {
     try {
-      const body = { description };
+      const body = { formData };
       await fetch('/todos', {
         method: 'post',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body),
-      });
-      window.location.href = '/';
+      })
+        .then(() => Rerender())
+        .then(() => ToggleCreateTodoModal());
     } catch (error) {
       console.error({ error });
     }
@@ -31,9 +40,7 @@ export const AddTodoContainer = () => {
     <AddTodoView
       ToggleCreateTodoModal={ToggleCreateTodoModal}
       showCreateTodoDialog={showCreateTodoDialog}
-      description={description}
-      handleChange={handleChange}
-      CreateTodo={CreateTodo}
+      handleFormSubmit={handleFormSubmit}
     />
   );
 };

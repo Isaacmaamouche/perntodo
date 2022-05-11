@@ -4,23 +4,21 @@ import { Button } from '@welcome-ui/button';
 import { Flex } from '@welcome-ui/flex';
 import { Text } from '@welcome-ui/text';
 import { Box } from '@welcome-ui/box';
+import { AddTodoForm, FormDataType } from '../Form/TodoForm';
+import { Todo } from '../ListTodo/ListTodosContainer';
 
 export type EditTodoProps = {
   ToggleCreateTodoModal: () => void;
   showCreateTodoDialog: boolean;
-  newDescription: string;
-  description: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  updateTodo: () => void;
+  todo: Todo;
+  handleFormSubmit: (formData: FormDataType) => void;
 };
 
 export const EditTodoView: React.FC<EditTodoProps> = ({
   ToggleCreateTodoModal,
   showCreateTodoDialog,
-  description,
-  newDescription,
-  handleChange,
-  updateTodo,
+  handleFormSubmit,
+  todo,
 }) => {
   return (
     <>
@@ -36,40 +34,17 @@ export const EditTodoView: React.FC<EditTodoProps> = ({
       {showCreateTodoDialog && (
         <>
           <Box className="dialog">
-            <form>
-              <Flex direction="column" gap="1rem" justify="center">
-                <Text variant="h2" color="black">
-                  Editing todo item
-                </Text>
-                <input
-                  type="text"
-                  className="form-control"
-                  defaultValue={description}
-                  onChange={(e) => handleChange(e)}
-                />
-                <Flex direction="row" align="right" justify="end" gap="1rem">
-                  <Button
-                    variant="primary-info"
-                    onClick={updateTodo}
-                    disabled={newDescription.length == 0 && true}
-                  >
-                    <Text variant="body2" as="span">
-                      Update
-                    </Text>
-                    <EditIcon />
-                  </Button>
-                  <Button
-                    variant="primary-warning"
-                    onClick={ToggleCreateTodoModal}
-                  >
-                    <Text variant="body2" as="span">
-                      Cancel
-                    </Text>
-                    <CrossIcon />
-                  </Button>
-                </Flex>
-              </Flex>
-            </form>
+            <Flex direction="column" gap="1rem" justify="center">
+              <Text variant="h2" color="black">
+                Editing todo item
+              </Text>
+              <AddTodoForm
+                submitHandler={(data: FormDataType) => handleFormSubmit(data)}
+                todo={todo}
+                submitButtonText="Edit"
+                toggleModal={ToggleCreateTodoModal}
+              />
+            </Flex>
           </Box>
           <div className="backdrop" onClick={ToggleCreateTodoModal}></div>
         </>

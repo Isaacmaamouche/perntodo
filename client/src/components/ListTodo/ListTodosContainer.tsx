@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useRenderContext } from '../../context/renderContext';
 import { ListTodosView } from './ListTodosView';
+import { formatToFullDate, dateIsLate } from '../../utils/DateUtils';
 
 export type Todo = {
   description: string;
@@ -12,11 +13,11 @@ export type Todo = {
   title: string;
 };
 
-export type completedTodoPayload = { completed: boolean };
+export type completedTodoPayload = { formData: { completed: boolean } };
 
 export const ListTodosContainer = () => {
   const [todos, setTodos] = useState([]);
-  const { render, triggerRender } = useRenderContext();
+  const { renderCount, Rerender } = useRenderContext();
 
   async function getTodos() {
     try {
@@ -32,7 +33,7 @@ export const ListTodosContainer = () => {
 
   useEffect(() => {
     getTodos();
-  }, [render]);
+  }, [renderCount]);
 
   async function deleteTodo(id: number) {
     try {
@@ -46,15 +47,16 @@ export const ListTodosContainer = () => {
   }
 
   async function completedTodo(id: number, completed: boolean) {
+    console.log(id, completed);
     try {
       const body: completedTodoPayload = {
-        completed,
+        formData: { completed },
       };
       await fetch(`/todos/${id}`, {
         method: 'put',
         headers: { 'Content-Type': 'Application/JSON' },
         body: JSON.stringify(body),
-      }).then(() => triggerRender(render + 1));
+      }).then(() => Rerender());
     } catch (error) {
       console.error({ error });
     }
@@ -65,6 +67,8 @@ export const ListTodosContainer = () => {
       todos={todos}
       deleteTodo={deleteTodo}
       completedTodo={completedTodo}
+      formatToFullDate={formatToFullDate}
+      dateIsLate={dateIsLate}
     />
   );
 };
