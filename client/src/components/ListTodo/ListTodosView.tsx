@@ -8,7 +8,7 @@ import { ListTodosEditBar } from './ListTodosEditBar';
 export type ListTodosProps = {
   todos: Todo[];
   deleteTodo: (arr: number) => void;
-  completedTodo: (arr: number, arr2: boolean) => void;
+  setTodoToCompleted: (arr: number, arr2: boolean) => void;
   formatToFullDate: (date: string, locale?: string) => string;
   dateIsLate: (date: string) => boolean;
 };
@@ -16,7 +16,7 @@ export type ListTodosProps = {
 export const ListTodosView: React.FC<ListTodosProps> = ({
   todos,
   deleteTodo,
-  completedTodo,
+  setTodoToCompleted,
   formatToFullDate,
   dateIsLate,
 }) => {
@@ -34,9 +34,9 @@ export const ListTodosView: React.FC<ListTodosProps> = ({
                         <Box display="flex" alignItems="center" gap="5px">
                           <Text as="h3" m="0" fontWeight="bold">
                             {/* {todo.emoji} */}
-                            {todo.todo_id} -{' '}
-                            {todo.completed == false ? 'En cours' : 'Terminée'}{' '}
-                            {dateIsLate(todo.date) && '⌚'} | {todo.title}
+                            {/* {todo.todo_id} -{' '} */}
+                            {todo.completed == false ? 'En cours' : 'Terminée'}
+                            {dateIsLate(todo.date) && ' ⌚'} | {todo.title}
                           </Text>
                         </Box>
                       }
@@ -48,15 +48,15 @@ export const ListTodosView: React.FC<ListTodosProps> = ({
                         gap="5px"
                       >
                         <Text as="h3" m="0" fontWeight="bold">
-                          Date : {formatToFullDate(todo.date, 'fr')} | En retard
-                          !
+                          {formatToFullDate(todo.date, 'fr')}
+                          {dateIsLate(todo.date) && ' | En retard !'}
                         </Text>
                         <Text as="h3" m="0" fontWeight="bold">
                           {todo.description}
                         </Text>
                         <ListTodosEditBar
                           deleteTodo={deleteTodo}
-                          completedTodo={completedTodo}
+                          setTodoToCompleted={setTodoToCompleted}
                           todo={todo}
                         />
                       </Box>

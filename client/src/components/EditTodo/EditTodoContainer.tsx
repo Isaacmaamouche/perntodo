@@ -6,9 +6,13 @@ import { FormDataType } from '../Form/TodoForm';
 
 interface EditProps {
   todo: Todo;
+  setTodoToCompleted: (arr: number, arr2: boolean) => void;
 }
 
-export const EditTodoContainer: React.FC<EditProps> = ({ todo }: EditProps) => {
+export const EditTodoContainer: React.FC<EditProps> = ({
+  todo,
+  setTodoToCompleted,
+}: EditProps) => {
   const { Rerender } = useRenderContext();
 
   const [showCreateTodoDialog, setShowCreateTodoDialog] = useState(false);
@@ -42,6 +46,7 @@ export const EditTodoContainer: React.FC<EditProps> = ({ todo }: EditProps) => {
       ToggleCreateTodoModal={ToggleCreateTodoModal}
       showCreateTodoDialog={showCreateTodoDialog}
       handleFormSubmit={handleFormSubmit}
+      setTodoToCompleted={setTodoToCompleted}
       todo={todo}
     />
   );

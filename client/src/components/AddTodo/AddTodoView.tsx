@@ -29,13 +29,13 @@ export const AddTodoView: React.FC<AddTodoProps> = ({
       {showCreateTodoDialog && (
         <>
           <Box className="dialog">
-            <Flex direction="column" gap="1rem" justify="center">
-              <Text variant="h2" color="black">
+            <Flex direction="column" justify="center">
+              <Text variant="h2" color="black" mt="0px">
                 Add a todo item
               </Text>
               <AddTodoForm
                 submitHandler={handleFormSubmit}
-                submitButtonText="Create"
+                submitButtonText="Créer une nouvelle tâche"
                 toggleModal={ToggleCreateTodoModal}
               />
             </Flex>

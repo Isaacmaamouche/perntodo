@@ -12,6 +12,7 @@ export type EditTodoProps = {
   showCreateTodoDialog: boolean;
   todo: Todo;
   handleFormSubmit: (formData: FormDataType) => void;
+  setTodoToCompleted: (arr: number, arr2: boolean) => void;
 };
 
 export const EditTodoView: React.FC<EditTodoProps> = ({
@@ -19,6 +20,7 @@ export const EditTodoView: React.FC<EditTodoProps> = ({
   showCreateTodoDialog,
   handleFormSubmit,
   todo,
+  setTodoToCompleted,
 }) => {
   return (
     <>
@@ -34,15 +36,16 @@ export const EditTodoView: React.FC<EditTodoProps> = ({
       {showCreateTodoDialog && (
         <>
           <Box className="dialog">
-            <Flex direction="column" gap="1rem" justify="center">
-              <Text variant="h2" color="black">
+            <Flex direction="column" justify="center">
+              <Text variant="h2" color="black" mt="0px">
                 Editing todo item
               </Text>
               <AddTodoForm
                 submitHandler={(data: FormDataType) => handleFormSubmit(data)}
                 todo={todo}
-                submitButtonText="Edit"
+                submitButtonText="Mettre à jour"
                 toggleModal={ToggleCreateTodoModal}
+                setTodoToCompleted={setTodoToCompleted}
               />
             </Flex>
           </Box>

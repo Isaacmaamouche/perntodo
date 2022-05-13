@@ -34,7 +34,7 @@ exports.getOneTodo = async (req, res) => {
 exports.updateTodo = async (req, res) => {
   const { id } = req.params;
   const { formData } = req.body;
-  console.log(formData);
+  // console.log(formData);
   try {
     const keyValues = Object.entries(formData);
 

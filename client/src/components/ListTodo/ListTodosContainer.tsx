@@ -46,8 +46,7 @@ export const ListTodosContainer = () => {
     }
   }
 
-  async function completedTodo(id: number, completed: boolean) {
-    console.log(id, completed);
+  async function setTodoToCompleted(id: number, completed: boolean) {
     try {
       const body: completedTodoPayload = {
         formData: { completed },
@@ -66,7 +65,7 @@ export const ListTodosContainer = () => {
     <ListTodosView
       todos={todos}
       deleteTodo={deleteTodo}
-      completedTodo={completedTodo}
+      setTodoToCompleted={setTodoToCompleted}
       formatToFullDate={formatToFullDate}
       dateIsLate={dateIsLate}
     />

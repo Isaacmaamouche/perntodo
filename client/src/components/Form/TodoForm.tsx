@@ -6,14 +6,22 @@ import { DatePicker } from '@welcome-ui/date-picker';
 import { registerLocale, setDefaultLocale } from 'react-datepicker';
 import fr from 'date-fns/locale/fr';
 import { Field } from '@welcome-ui/field';
+import { Box } from '@welcome-ui/box';
 import { Button } from '@welcome-ui/button';
 import { Todo } from '../ListTodo/ListTodosContainer';
 import { formatToFullDate } from '../../utils/DateUtils';
-import { AddIcon, CrossIcon, DateIcon } from '@welcome-ui/icons';
+import {
+  AddIcon,
+  CheckIcon,
+  CrossIcon,
+  DateIcon,
+  ResetIcon,
+} from '@welcome-ui/icons';
 import { InputText } from '@welcome-ui/input-text';
 import { Flex } from '@welcome-ui/flex';
 import { Text } from '@welcome-ui/text';
 import { Toggle } from '@welcome-ui/toggle';
+import { Textarea } from '@welcome-ui/textarea';
 
 registerLocale('fr', fr);
 
@@ -30,6 +38,7 @@ export type TodoFormProps = {
   todo?: Todo;
   submitButtonText: string;
   toggleModal: () => void;
+  setTodoToCompleted?: (arr: number, arr2: boolean) => void;
 };
 
 export const AddTodoForm: React.FC<TodoFormProps> = ({
@@ -37,6 +46,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
   todo,
   toggleModal,
   submitButtonText,
+  setTodoToCompleted,
 }) => {
   const [dateValue, setDateValue] = useState(
     todo ? new Date(todo.date) : new Date()
@@ -65,7 +75,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
     },
   });
 
-  console.log(watch('completed'));
+  // console.log(watch('completed'));
 
   //   const emojiPicker = useEmojiPicker();
   //   const [emoji, setEmoji] = useState(':page_facing_up');
@@ -73,8 +83,18 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
   //     setEmoji(value);
   //   };
 
+  function handleSetTodoToCompleted(todo_id: number, newStatus: boolean) {
+    if (setTodoToCompleted) setTodoToCompleted(todo_id, newStatus);
+    toggleModal();
+  }
+
   return (
     <>
+      <Box position="absolute" top="1rem" right="1rem">
+        <Button shape="circle" variant="tertiary" onClick={toggleModal}>
+          <CrossIcon size="lg" />
+        </Button>
+      </Box>
       <form
         onSubmit={handleSubmit((formData) => {
           console.log(formData);
@@ -83,7 +103,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
       >
         <Flex direction="column" gap="1.5rem">
           <Field
-            label="Status"
+            label="Statut"
             // hidden={submitButtonText == 'Edit' ? false : true}
             hidden
           >
@@ -94,7 +114,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
               onClick={handleStatusToggle}
             />
           </Field>
-          <Field label="Todo Title" required error={errors.title?.message}>
+          <Field label="Tâche" required error={errors.title?.message}>
             <InputText
               className={errors.title && 'formElementRequired'}
               {...register('title', {
@@ -102,19 +122,20 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
                 minLength: 1,
               })}
               name="title"
-              placeholder="Title"
+              placeholder="Nom de la tâche"
               isClearable
+            />
+          </Field>
+          <Field label="Description">
+            <Textarea
+              {...register('description')}
+              name="description"
+              placeholder="Description"
+              // onChange={handleDescription}
+              // value={value}
             />
           </Field>
 
-          <Field label="Todo Description">
-            <InputText
-              {...register('description')}
-              name="description"
-              placeholder="Todo description"
-              isClearable
-            />
-          </Field>
           {/* <Field label="Emoji">
           <input
             {...register('AddTodoEmoji')}
@@ -138,7 +159,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
               {...register('date')}
               icon={<DateIcon color="light.100" />}
               locale={fr}
-              name="welcome"
+              name="date"
               onChange={handleDateChange}
               value={dateValue}
             />
@@ -159,16 +180,45 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
               isClearable
             />
           </Field>
-          <Flex direction="row" align="right" justify="end" gap="1rem">
+          <Flex direction="column" align="right" justify="end" gap="1rem">
             <Button type="submit" variant="primary-info">
               <Text variant="body2" as="span">
                 {submitButtonText}
               </Text>
               <AddIcon />
             </Button>
+            {todo && setTodoToCompleted && (
+              <>
+                {todo.completed === false ? (
+                  <Button
+                    variant="primary-success"
+                    onClick={() =>
+                      handleSetTodoToCompleted(todo.todo_id, !todo.completed)
+                    }
+                  >
+                    <Text variant="body2" as="span">
+                      Marquer comme complétée
+                    </Text>
+                    <CheckIcon size="lg" />
+                  </Button>
+                ) : (
+                  <Button
+                    variant="primary-warning"
+                    onClick={() =>
+                      handleSetTodoToCompleted(todo.todo_id, !todo.completed)
+                    }
+                  >
+                    <Text variant="body2" as="span">
+                      Marquer comme en cours
+                    </Text>
+                    <ResetIcon size="lg" />
+                  </Button>
+                )}
+              </>
+            )}
             <Button variant="primary-warning" onClick={toggleModal}>
               <Text variant="body2" as="span">
-                Cancel
+                Annuler
               </Text>
               <CrossIcon />
             </Button>

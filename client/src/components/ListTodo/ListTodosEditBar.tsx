@@ -7,16 +7,16 @@ import { Todo } from './ListTodosContainer';
 type ListTodosEditBarProps = {
   todo: Todo;
   deleteTodo: (arr: number) => void;
-  completedTodo: (arr: number, arr2: boolean) => void;
+  setTodoToCompleted: (arr: number, arr2: boolean) => void;
 };
 
 export const ListTodosEditBar: React.FC<ListTodosEditBarProps> = ({
   deleteTodo,
-  completedTodo,
+  setTodoToCompleted,
   todo,
 }) => {
   return (
-    <Box display="flex" gap=".5rem">
+    <Box display="flex" justifyContent="flex-end" gap=".5rem">
       <Button
         variant="primary-danger"
         shape="circle"
@@ -25,14 +25,14 @@ export const ListTodosEditBar: React.FC<ListTodosEditBarProps> = ({
       >
         <CrossIcon size="lg" />
       </Button>
-      <EditTodoContainer todo={todo} />
+      <EditTodoContainer setTodoToCompleted={setTodoToCompleted} todo={todo} />
 
       {!todo.completed ? (
         <Button
           variant="primary-success"
           shape="circle"
           size="sm"
-          onClick={() => completedTodo(todo.todo_id, !todo.completed)}
+          onClick={() => setTodoToCompleted(todo.todo_id, !todo.completed)}
         >
           <CheckIcon size="lg" />
         </Button>
@@ -41,7 +41,7 @@ export const ListTodosEditBar: React.FC<ListTodosEditBarProps> = ({
           variant="primary-warning"
           shape="circle"
           size="sm"
-          onClick={() => completedTodo(todo.todo_id, !todo.completed)}
+          onClick={() => setTodoToCompleted(todo.todo_id, !todo.completed)}
         >
           <ResetIcon size="lg" />
         </Button>
