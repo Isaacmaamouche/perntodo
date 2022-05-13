@@ -4,15 +4,16 @@ import { Button } from '@welcome-ui/button';
 import { Flex } from '@welcome-ui/flex';
 import { Text } from '@welcome-ui/text';
 import { Box } from '@welcome-ui/box';
-import { AddTodoForm, FormDataType } from '../Form/TodoForm';
+import { TodoForm, FormDataType } from '../Form/TodoForm';
 import { Todo } from '../ListTodo/ListTodosContainer';
+import { FormDialog } from '../Dialog/FormDialog';
 
 export type EditTodoProps = {
   ToggleCreateTodoModal: () => void;
   showCreateTodoDialog: boolean;
   todo: Todo;
-  handleFormSubmit: (formData: FormDataType) => void;
   setTodoToCompleted: (arr: number, arr2: boolean) => void;
+  handleFormSubmit: (formData: FormDataType) => void;
 };
 
 export const EditTodoView: React.FC<EditTodoProps> = ({
@@ -35,21 +36,29 @@ export const EditTodoView: React.FC<EditTodoProps> = ({
 
       {showCreateTodoDialog && (
         <>
-          <Box className="dialog">
+          <FormDialog
+            ToggleCreateTodoModal={ToggleCreateTodoModal}
+            handleFormSubmit={handleFormSubmit}
+            todo={todo}
+            setTodoToCompleted={setTodoToCompleted}
+            dialogHeading="Modifier tâche"
+            submitButtonText="Modifier"
+          />
+          {/* <Box className="dialog">
             <Flex direction="column" justify="center">
               <Text variant="h2" color="black" mt="0px">
                 Editing todo item
               </Text>
-              <AddTodoForm
+              <TodoForm
                 submitHandler={(data: FormDataType) => handleFormSubmit(data)}
-                todo={todo}
-                submitButtonText="Mettre à jour"
                 toggleModal={ToggleCreateTodoModal}
+                todo={todo}
                 setTodoToCompleted={setTodoToCompleted}
+                submitButtonText="Mettre à jour"
               />
             </Flex>
           </Box>
-          <div className="backdrop" onClick={ToggleCreateTodoModal}></div>
+          <div className="backdrop" onClick={ToggleCreateTodoModal}></div> */}
         </>
       )}
     </>

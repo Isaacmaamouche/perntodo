@@ -14,7 +14,7 @@ export const InputTodoView: React.FC<InputTodoProps> = ({ resetDemoData }) => {
       <AddTodoContainer />
       <Button onClick={resetDemoData}>
         <Text variant="body2" as="span">
-          Reset data
+          Reset les todos
         </Text>
         <RefreshIcon />
       </Button>

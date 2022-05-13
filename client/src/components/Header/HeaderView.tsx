@@ -20,7 +20,8 @@ export const HeaderView: React.FC<HeaderProps> = ({ timeRemaining }) => {
         role="alert"
       >
         <Text variant="body2" as="span">
-          The database is reset every 10 min with demo records.
+          La base de données est reset toutes les 10 min avec des données de
+          démo.
           <br />
           {timeRemaining} before reset
         </Text>

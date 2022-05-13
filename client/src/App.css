@@ -31,9 +31,7 @@
     height:100%
   }
 }
-.dialog * {
-z-index: 10;
-}
+
 
 .backdrop{
   position: fixed;

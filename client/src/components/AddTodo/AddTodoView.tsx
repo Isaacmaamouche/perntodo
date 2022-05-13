@@ -4,7 +4,8 @@ import { AddIcon, CrossIcon } from '@welcome-ui/icons';
 import { Box } from '@welcome-ui/box';
 import { Flex } from '@welcome-ui/flex';
 import React from 'react';
-import { AddTodoForm, FormDataType } from '../Form/TodoForm';
+import { TodoForm, FormDataType } from '../Form/TodoForm';
+import { FormDialog } from '../Dialog/FormDialog';
 
 export type AddTodoProps = {
   ToggleCreateTodoModal: () => void;
@@ -21,27 +22,18 @@ export const AddTodoView: React.FC<AddTodoProps> = ({
     <>
       <Button variant="primary-info" onClick={ToggleCreateTodoModal}>
         <Text variant="body2" as="span">
-          Add todo
+          Créer une Tâche
         </Text>
         <AddIcon />
       </Button>
 
       {showCreateTodoDialog && (
-        <>
-          <Box className="dialog">
-            <Flex direction="column" justify="center">
-              <Text variant="h2" color="black" mt="0px">
-                Add a todo item
-              </Text>
-              <AddTodoForm
-                submitHandler={handleFormSubmit}
-                submitButtonText="Créer une nouvelle tâche"
-                toggleModal={ToggleCreateTodoModal}
-              />
-            </Flex>
-          </Box>
-          <div className="backdrop" onClick={ToggleCreateTodoModal}></div>
-        </>
+        <FormDialog
+          ToggleCreateTodoModal={ToggleCreateTodoModal}
+          handleFormSubmit={handleFormSubmit}
+          dialogHeading="Créer une nouvelle tâche"
+          submitButtonText="Créer"
+        />
       )}
     </>
   );

@@ -41,7 +41,7 @@ export type TodoFormProps = {
   setTodoToCompleted?: (arr: number, arr2: boolean) => void;
 };
 
-export const AddTodoForm: React.FC<TodoFormProps> = ({
+export const TodoForm: React.FC<TodoFormProps> = ({
   submitHandler,
   todo,
   toggleModal,
@@ -216,7 +216,7 @@ export const AddTodoForm: React.FC<TodoFormProps> = ({
                 )}
               </>
             )}
-            <Button variant="primary-warning" onClick={toggleModal}>
+            <Button variant="primary-danger" onClick={toggleModal}>
               <Text variant="body2" as="span">
                 Annuler
               </Text>

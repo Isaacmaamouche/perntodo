@@ -11,8 +11,6 @@ export const AddTodoContainer = () => {
   function ToggleCreateTodoModal() {
     setShowCreateTodoDialog(!showCreateTodoDialog);
   }
-  const [description, setDescription] = useState('');
-
   function handleFormSubmit(formData: FormDataType) {
     CreateTodo(formData);
   }
@@ -30,10 +28,6 @@ export const AddTodoContainer = () => {
     } catch (error) {
       console.error({ error });
     }
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setDescription(e.target.value);
   }
 
   return (
