@@ -25,17 +25,22 @@ export const ListTodosEditBar: React.FC<ListTodosEditBarProps> = ({
       >
         <CrossIcon size="lg" />
       </Button>
-      <EditTodoContainer setTodoToCompleted={setTodoToCompleted} todo={todo} />
 
       {!todo.completed ? (
-        <Button
-          variant="primary-success"
-          shape="circle"
-          size="sm"
-          onClick={() => setTodoToCompleted(todo.todo_id, !todo.completed)}
-        >
-          <CheckIcon size="lg" />
-        </Button>
+        <>
+          <EditTodoContainer
+            setTodoToCompleted={setTodoToCompleted}
+            todo={todo}
+          />
+          <Button
+            variant="primary-success"
+            shape="circle"
+            size="sm"
+            onClick={() => setTodoToCompleted(todo.todo_id, !todo.completed)}
+          >
+            <CheckIcon size="lg" />
+          </Button>
+        </>
       ) : (
         <Button
           variant="primary-warning"
