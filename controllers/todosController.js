@@ -12,8 +12,7 @@ exports.getTodos = async (req, res) => {
 
 exports.resetTodos = async (req, res) => {
   try {
-    await resetDB();
-    res.status(200).json({ message });
+    await resetDB().then(() => res.status(200).json({ message: 'reset done' }));
   } catch (error) {
     res.status(500).json({ error });
   }
@@ -37,7 +36,6 @@ exports.updateTodo = async (req, res) => {
   // console.log(formData);
   try {
     const keyValues = Object.entries(formData);
-
     let SQLKey = [];
     keyValues.forEach((pair, index) =>
       SQLKey.push(`${pair[0]} = $${index + 1}`)
@@ -60,29 +58,33 @@ exports.updateTodo = async (req, res) => {
       }
     });
 
-    let SQLQuerie = `UPDATE todo SET ${SQLKey.join(', ')} WHERE todo_id=$${
+    let SQLQuerie = `UPDATE todo SET ${SQLKey.join(', ')} WHERE todo_id = $${
       keyValues.length + 1
     }`;
 
     const query = {
       // give the query a unique name
-      name: 'updateTodo',
+      name:
+        'updateTodo on ID #' + id + ' - ' + Math.random().toFixed(4) * 10000,
       text: SQLQuerie,
       values: [...SQLValues, id],
     };
-    // console.log(query);
+    console.log(query);
 
-    await pool.query(query);
+    await pool
+      .query(query)
+      .then(() => res.status(200).json({ message: 'todo was updated' }));
     // await pool.query('UPDATE todo SET description = $1 WHERE todo_id = $2', [
     //   description,
     //   id,
     // ]);
 
-    const aTodo = await pool.query('SELECT * FROM todo WHERE todo_id = $1', [
-      id,
-    ]);
-    res.status(200).json({ message: 'todo was updated', todo: aTodo.rows[0] });
+    // const aTodo = await pool.query('SELECT * FROM todo WHERE todo_id = $1', [
+    //   id,
+    // ]);
+    // res.status(200).json({ message: 'todo was updated', todo: aTodo.rows[0] });
   } catch (error) {
+    console.error({ error });
     res.status(500).json({ error: 'oups - something went wrong' });
   }
 };

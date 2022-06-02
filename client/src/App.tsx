@@ -9,8 +9,7 @@ import { useState } from 'react';
 function App() {
   const [renderCount, setRenderCount] = useState<number>(0);
   const Rerender = () => {
-    console.log('Rerender');
-
+    // console.log('Rerender');
     setRenderCount(renderCount + 1);
   };
   return (

@@ -6,12 +6,9 @@ const todosRoutes = require('./routes/todos');
 const resetDB = require('./utils/resetDB');
 const PORT = process.env.PORT || 5000;
 
-// Je laisse tomber le cron, ça ne tourne pas sur heroku
-// à la place, le front enverra une requête au back
-
 // running db reset every 10 minutes
 var cron = require('node-cron');
-cron.schedule('55 */1 * * * *', () => {
+cron.schedule('55 */9 * * * *', () => {
   console.log('db reset from cron');
   resetDB();
 });

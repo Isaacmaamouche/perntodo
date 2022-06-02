@@ -25,8 +25,7 @@ export const ListTodosContainer = () => {
         method: 'get',
       })
         .then((res) => res.json())
-        .then((todoArray) => setTodos(todoArray))
-        .then(() => console.log(todos));
+        .then((todoArray) => setTodos(todoArray));
     } catch (error) {
       console.error({ error });
     }

@@ -30,7 +30,6 @@ export const ListTodosView: React.FC<ListTodosProps> = ({
                 <Table.Tr key={todo.todo_id}>
                   <Table.Td>
                     <Accordion
-                      visible
                       title={
                         <Box display="flex" alignItems="center" gap="5px">
                           <Text as="h3" m="0" fontWeight="bold">
