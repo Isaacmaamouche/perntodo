@@ -10,7 +10,8 @@ export const InputTodoContainer = () => {
     try {
       await fetch('/todos/reset').then(() => Rerender());
     } catch (error) {
-      console.error({ error });
+      console.error('le reset a merdé');
+      // console.error({ error });
     }
   }
 

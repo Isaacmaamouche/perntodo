@@ -97,7 +97,7 @@ export const TodoForm: React.FC<TodoFormProps> = ({
       </Box>
       <form
         onSubmit={handleSubmit((formData) => {
-          console.log(formData);
+          // console.log(formData);
           submitHandler(formData);
         })}
       >

@@ -2,6 +2,7 @@ const pool = require('../db');
 const resetDB = require('../utils/resetDB');
 
 exports.getTodos = async (req, res) => {
+  console.log('getTodos called');
   try {
     const allTodos = await pool.query('SELECT * FROM todo ORDER BY todo_id');
     res.status(200).json(allTodos.rows);
@@ -11,15 +12,19 @@ exports.getTodos = async (req, res) => {
 };
 
 exports.resetTodos = async (req, res) => {
+  console.log('resetTodos called');
+
   try {
-    resetDB();
-    res.status(200);
+    await resetDB();
+    res.status(200).json({ message });
   } catch (error) {
     res.status(500).json({ error });
   }
 };
 
 exports.getOneTodo = async (req, res) => {
+  console.log('getOneTodo called');
+
   const id = req.params.id;
   try {
     const aTodo = await pool.query('SELECT * FROM todo WHERE todo_id = $1', [
@@ -32,6 +37,8 @@ exports.getOneTodo = async (req, res) => {
 };
 
 exports.updateTodo = async (req, res) => {
+  console.log('updateTodo called');
+
   const { id } = req.params;
   const { formData } = req.body;
   // console.log(formData);
@@ -89,6 +96,8 @@ exports.updateTodo = async (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
+  console.log('createTodo called');
+
   const { formData } = req.body;
   // console.log(formData);
   try {
@@ -150,6 +159,8 @@ exports.createTodo = async (req, res) => {
 };
 
 exports.deleteTodo = async (req, res) => {
+  console.log('deleteTodo called');
+
   const { id } = req.params;
 
   try {

@@ -25,7 +25,8 @@ export const ListTodosContainer = () => {
         method: 'get',
       })
         .then((res) => res.json())
-        .then((todoArray) => setTodos(todoArray));
+        .then((todoArray) => setTodos(todoArray))
+        .then(() => console.log(todos));
     } catch (error) {
       console.error({ error });
     }
@@ -47,6 +48,8 @@ export const ListTodosContainer = () => {
   }
 
   async function setTodoToCompleted(id: number, completed: boolean) {
+    // console.log(completed);
+
     try {
       const body: completedTodoPayload = {
         formData: { completed },
