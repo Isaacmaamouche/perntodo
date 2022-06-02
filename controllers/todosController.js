@@ -2,7 +2,6 @@ const pool = require('../db');
 const resetDB = require('../utils/resetDB');
 
 exports.getTodos = async (req, res) => {
-  console.log('getTodos called');
   try {
     const allTodos = await pool.query('SELECT * FROM todo ORDER BY todo_id');
     res.status(200).json(allTodos.rows);
@@ -12,8 +11,6 @@ exports.getTodos = async (req, res) => {
 };
 
 exports.resetTodos = async (req, res) => {
-  console.log('resetTodos called');
-
   try {
     await resetDB();
     res.status(200).json({ message });
@@ -23,8 +20,6 @@ exports.resetTodos = async (req, res) => {
 };
 
 exports.getOneTodo = async (req, res) => {
-  console.log('getOneTodo called');
-
   const id = req.params.id;
   try {
     const aTodo = await pool.query('SELECT * FROM todo WHERE todo_id = $1', [
@@ -37,8 +32,6 @@ exports.getOneTodo = async (req, res) => {
 };
 
 exports.updateTodo = async (req, res) => {
-  console.log('updateTodo called');
-
   const { id } = req.params;
   const { formData } = req.body;
   // console.log(formData);
@@ -77,7 +70,6 @@ exports.updateTodo = async (req, res) => {
       text: SQLQuerie,
       values: [...SQLValues, id],
     };
-
     // console.log(query);
 
     await pool.query(query);
@@ -96,16 +88,12 @@ exports.updateTodo = async (req, res) => {
 };
 
 exports.createTodo = async (req, res) => {
-  console.log('createTodo called');
-
   const { formData } = req.body;
-  // console.log(formData);
   try {
     const keyValues = Object.entries(formData);
-
     let SQLKey = Object.keys(formData);
-
     let SQLValues = [];
+
     keyValues.forEach((pair) => {
       if (pair[0] == 'tag') {
         //la valeur de tag a besoin d'une reconstruction pour correspondre au data type de la bd
@@ -159,13 +147,9 @@ exports.createTodo = async (req, res) => {
 };
 
 exports.deleteTodo = async (req, res) => {
-  console.log('deleteTodo called');
-
   const { id } = req.params;
-
   try {
     await pool.query('DELETE FROM todo WHERE todo_id = $1', [id]);
-
     res.status(200).json({ message: 'todo was deleted' });
   } catch (error) {
     res.status(500).json({ error });

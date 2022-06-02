@@ -48,8 +48,6 @@ export const ListTodosContainer = () => {
   }
 
   async function setTodoToCompleted(id: number, completed: boolean) {
-    // console.log(completed);
-
     try {
       const body: completedTodoPayload = {
         formData: { completed },
